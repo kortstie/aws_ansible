@@ -44,13 +44,21 @@ Save key and secret e.g. to a local file
     echo <<EOF > ~/aws.key 
     export AWS_ACCESS_KEY_ID=<key_id>
     export AWS_SECRET_ACCESS_KEY=<secret>
-EOF```
+EOF
+```
 
 
 Load Key and secret before ec module start: 
     . ~/aws.key
 
 ## Create more EC2 instances with ansible
+
+This Playbook creates (some) EC2 instances, saves Local IPs into ~/hosts...
+
+    aws_docker_create_instances.yml
     
-### Provision for the instances
+## Provision for the instances with docker
+
+Creates User, Updates the system, installs Docker packages, reboot
+
      ./aws_docker_provisioning.yml -l tdoc*
