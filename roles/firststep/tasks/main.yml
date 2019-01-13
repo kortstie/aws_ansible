@@ -29,11 +29,24 @@
     mode: 0700
     owner: kortstie
     group: users
-    
-- name: Change permissions of /opt/ansible
-  file:
-    path: /opt/ansible
-    owner: kortstie
-    recurse: yes
-    state: directory
+
+- name: Install EPEL Repo
+  yum:
+    name: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm"
+    state: present
+
+- name: Install some packages
+  yum:
+    name: "screen,vim,git,python,python-pip"  
+    state: latest
+
+- name: Install boto
+  shell: "pip install boto"
+
+- name: Update the system
+  yum:
+    name: '*'
+    state: latest
+
+
 
