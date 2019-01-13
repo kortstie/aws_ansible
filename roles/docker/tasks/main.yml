@@ -32,3 +32,6 @@
     groups: dockerroot
     append: yes
 
+- name: Install Python docker modules
+  shell: "pip install docker"
+

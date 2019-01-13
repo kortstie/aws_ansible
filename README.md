@@ -51,7 +51,9 @@ EOF
 Load Key and secret before ec module start: 
     . ~/aws.key
 
-## Create more EC2 instances with ansible
+### Deploy some Docker Hosts
+
+## Create some EC2 instances with ansible
 
 This Playbook creates (some) EC2 instances, saves Local IPs into ~/hosts...
 
@@ -62,3 +64,13 @@ This Playbook creates (some) EC2 instances, saves Local IPs into ~/hosts...
 Creates User, Updates the system, installs Docker packages, reboot
 
      ./aws_docker_provisioning.yml -l tdoc*
+
+## Start swarm, deploy stacks
+
+Todo:
+- [x] start swarm
+- [ ] add nodes to the swarm
+- [ ] deploy a stack
+- [ ] scale a stack
+- [ ] take down a stack
+ 
