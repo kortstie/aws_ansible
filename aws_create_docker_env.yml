@@ -1,0 +1,29 @@
+#!/usr/bin/ansible-playbook
+---
+- hosts: localhost
+  connection: local
+
+  tasks:
+  - name: Create an EC2 instance
+    ec2:
+      key_name: frank.kortstiege_aws_eu
+      instance_type: t2.micro
+      image: ami-c86c3f23
+      region: eu-central-1
+      wait: yes
+      group: default
+      count: 2
+      vpc_subnet_id: subnet-a5a9f5d8
+      assign_public_ip: yes
+      state: present
+    register: ec2
+
+  - name: Add new instance to host group
+    add_host:
+      hostname: "{{ item.public_ip }}"
+      groupname: launched
+    with_items: "{{ ec2.instances }}"
+
+  - name: Get IP in /etc/hosts
+    shell: "echo {{ item.private_ip }}   {{ item.private_dns_name }} >> ~/hosts"
+    with_items: "{{ ec2.instances }}"
