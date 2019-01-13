@@ -9,7 +9,13 @@ yum install -y ansible git
 
 echo 127.0.0.1 `hostname` master >> /etc/hosts
 
+# Get ansible repo from github
 git clone https://github.com/kortstie/aws_ansible.git /opt/ansible
+git remote add origin https://github.com/kortstie/aws_ansible.git
+# After Changes:
+git push -u origin master
+
+
 cd /opt/ansible
 ./aws_master_step1.yml
 
