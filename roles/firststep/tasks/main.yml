@@ -1,0 +1,39 @@
+---
+
+- name: Add user kortstie
+  user:
+    name: kortstie
+    comment: Frank Kortstiege
+    uid: 1615
+    group: users
+    groups: wheel
+    state: present
+
+- name: Add public key for kortstie
+  authorized_key:
+    user: kortstie
+    state: present
+    key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDGxxA/8b/+62mRnh9EXuYR4q4ljERY18KOL3ycg9HEzD32TBoxBLCYLYzmrDShZ4nJIVKHk9c1Vn4rpXy0bfC6uVy9uxNtIusGqC+3fEpVbsFasWcRq93zvyB8EJVToSc5Ty9v9BMI3zMakb7qMafhdcUYjmucQNhWJYlxXpg8ImoNE1tN8/EKCaebGmYyo2qofRbFwGNAgAePsx0l2iNzT4ZeVHNk7rmA/pfaYyDQTM0YmoFZC9CW4JnhOA1LRYUFKN7gvyc3SBa9msDlTDLqrqIp4N6kApaq+AUAn7r8vhCoFS2Xw+l2j08Pc6KsZhLlUVu3FGMNwtZDx4MAfmAz imported-openssh-key 
+
+- name: Allow wheel group to get root without password
+  lineinfile:
+    path: /etc/sudoers
+    state: present
+    regexp: '^%wheel\s'
+    line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+
+- name: Get Screen rc File
+  get_url:
+    url: https://raw.githubusercontent.com/kortstie/aws/master/.screenrc
+    dest: /home/kortstie/.screenrc
+    mode: 0700
+    owner: kortstie
+    group: users
+    
+- name: Change permissions of /opt/ansible
+  file:
+    path: /opt/ansible
+    owner: kortstie
+    recurse: yes
+    state: directory
+

@@ -1,0 +1,7 @@
+- name: Change permissions of /opt/ansible
+  file:
+    path: /opt/ansible
+    owner: kortstie
+    recurse: yes
+    state: directory
+
