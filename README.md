@@ -33,23 +33,24 @@ Reboot the Instance and reconnect with kortstie...
 
 ## Create EC2 Ansible User
 
-Open [AWS IAM Console:](https://console.aws.amazon.com/iam/home?region=eu-central-1#)
+Open [AWS IAM Console](https://console.aws.amazon.com/iam/home?region=eu-central-1#)
 
 Create an user for Ansible (Programatic Access) with these rights:
 - AmazonEC2FullAccess
 - SecurityAudit 
 
-Save key and secret e.g. to a local file (aws.key)
+Save key and secret e.g. to a local file
+```bash
     echo <<EOF > ~/aws.key 
     export AWS_ACCESS_KEY_ID=<key_id>
     export AWS_SECRET_ACCESS_KEY=<secret>
-EOF
+EOF```
 
 
 Load Key and secret before ec module start: 
     . ~/aws.key
 
 ## Create more EC2 instances with ansible
-
+    
 ### Provision for the instances
- ./aws_docker_provisioning.yml -l tdoc*
+     ./aws_docker_provisioning.yml -l tdoc*
