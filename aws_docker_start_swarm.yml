@@ -1,0 +1,22 @@
+#!/usr/bin/ansible-playbook
+---
+- hosts: tdoc1
+  tasks:
+    - name: Init a new swarm with default parameters
+      docker_swarm:
+        state: present
+      register: swarm
+
+    - name: "get docker swarm worker token"
+      shell: "docker swarm join-token -q worker"
+      register: worker_token
+
+- hosts: tdoc2
+  tasks:
+    - name: Join the swarm as a worker
+      docker_swarm:
+        state: join
+        join_token: "{{ hostvars.tdoc1.worker_token.stdout }}"
+        remote_addrs: "{{ hostvars.tdoc1.ansible_eth0.ipv4.address }}:2377" 
+        advertise_addr: "{{ ansible_default_ipv4.address }}"
+    

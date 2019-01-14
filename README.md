@@ -25,13 +25,13 @@ Reboot the Instance and reconnect with kortstie...
     eval `ssh-agent`; ssh-add
     screen -S korti
 
-## Push Changes to GitHub
+### Push Changes to GitHub
 
     git remote set-url origin git@github.com:kortstie/aws_ansible.git
     git push origin master
 
 
-## Create EC2 Ansible User
+### Create EC2 Ansible User
 
 Open [AWS IAM Console](https://console.aws.amazon.com/iam/home?region=eu-central-1#)
 
@@ -39,21 +39,22 @@ Create an user for Ansible (Programatic Access) with these rights:
 - AmazonEC2FullAccess
 - SecurityAudit 
 
-Save key and secret e.g. to a local file
+Save key and secret to a local file
 ```bash
-    echo <<EOF > ~/aws.key 
-    export AWS_ACCESS_KEY_ID=<key_id>
-    export AWS_SECRET_ACCESS_KEY=<secret>
+echo <<EOF > ~/aws.key 
+export AWS_ACCESS_KEY_ID=<key_id>
+export AWS_SECRET_ACCESS_KEY=<secret>
 EOF
 ```
 
 
 Load Key and secret before ec module start: 
-    . ~/aws.key
 
-### Deploy some Docker Hosts
+     . ~/aws.key
 
-## Create some EC2 instances with ansible
+## Deploy some Docker Hosts
+
+### Create some EC2 instances with ansible
 
 This Playbook creates (some) EC2 instances, saves Local IPs into ~/hosts...
 

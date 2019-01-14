@@ -1,0 +1,17 @@
+#!/usr/bin/ansible-playbook
+---
+- hosts: tdoc2
+
+  tasks:
+    - name: Leave the swarm
+      docker_swarm:
+        state: absent
+        force: true
+
+- hosts: tdoc1
+
+  tasks:
+    - name: Bring down the swarm
+      docker_swarm:
+        state: absent
+        force: true

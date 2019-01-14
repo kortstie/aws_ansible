@@ -1,0 +1,12 @@
+#!/usr/bin/ansible-playbook
+---
+- hosts: tdoc1
+
+  tasks:
+    - name: deploy compose file
+      copy:
+        src: docker/web1/web1-compose.yml
+        dest: ~/
+        mode: 0644
+    - name: Start the stack...
+      shell: docker stack deploy -c ~/web1-compose.yml web1
