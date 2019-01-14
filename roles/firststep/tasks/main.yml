@@ -22,6 +22,11 @@
     regexp: '^%wheel\s'
     line: '%wheel ALL=(ALL) NOPASSWD: ALL'
 
+- name: Set Selinux to permissive mode
+  selinux:
+    policy: targeted
+    state: permissive 
+
 - name: Get Screen rc File
   get_url:
     url: https://raw.githubusercontent.com/kortstie/aws/master/.screenrc
