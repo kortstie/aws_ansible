@@ -8,7 +8,7 @@
     ec2:
       key_name: frank.kortstiege_aws_eu
       instance_type: t2.micro
-      image: ami-c86c3f23
+      image: ami-0d16ecbd2762ae54a
       region: eu-central-1
       wait: yes
       group: default
