@@ -24,6 +24,7 @@ Create kortstie user, add some packages, update the system
 Save Private Key under `/home/kortstie/.ssh/id_rsa` to access more instances from this host via ssh
 
     chmod 600 /home/kortstie/.ssh/id_rsa
+    chown kortstie:users /home/kortstie/.ssh/id_rsa
 
 Reboot the Instance and reconnect with kortstie...
 
@@ -63,7 +64,7 @@ Load Key and secret before ec module start:
 
 This Playbook creates (some) EC2 instances, saves Local IPs into ~/hosts...
 
-    aws_docker_create_instances.yml
+    ./aws_docker_create_instances.yml
 
 After successful run, the private DNS and IPs should be written in ~/hosts.
 Instert the IPs in /etc/hosts and assign the alias names tdoc1 and tdoc2 to them.
