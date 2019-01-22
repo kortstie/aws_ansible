@@ -1,6 +1,6 @@
 ## Overview
 
-This project provides the steps needed to build a docker environment based on AWS EC2 RHEL7 instances.
+This project provides the steps needed to build a docker environment based on AWS EC2 RHEL7 or Amazon Linux 2 instances.
 The docker hosts are provisioned and managed by an Ansible host.
 
 ## Prepare the Ansible Host
@@ -63,6 +63,7 @@ Load Key and secret before ec module start:
 ### Create some EC2 instances with ansible
 
 This Playbook creates (some) EC2 instances, saves Local IPs into ~/hosts...
+Edit the Playbook and select the most recent version of RHEL or Amazon Linux 2 image. (ami-xxxxx)
 
     ./aws_docker_create_instances.yml
 
@@ -87,6 +88,8 @@ This playbook brings up the swarm with two nodes.
 
 This playbook deploys a webserver into our swarm.
 The webserver should start on both nodes and listen on port 8081!
+
+    curl tdoc1:8081 tdoc2:8081
 
 
 Todo:
