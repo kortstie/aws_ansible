@@ -46,7 +46,7 @@
     state: permissive 
 
 - name: Install boto
-  shell: "pip install boto"
+  shell: "pip install boto boto3"
 
 - name: Update the system
   yum:
