@@ -1,5 +1,11 @@
 ---
 
+
+- name: Wait for instances to become reachable
+  wait_for_connection:
+    delay: 10
+    timeout: 120
+        
 - name: Add user kortstie
   user:
     name: kortstie

@@ -1,0 +1,37 @@
+#!/usr/bin/ansible-playbook
+---
+- hosts: all
+  connection: local
+  gather_facts: false
+
+  tasks:
+ 
+  - name: Debug
+    debug:
+     var: play_hosts
+
+  - name: Get Instance ID
+    ec2_instance_facts:
+      region: eu-central-1
+      filters:
+        "tag:Name": "tdoc*"
+        "instance-state-name": "running"
+    delegate_to: localhost
+    run_once: true
+    register: instance
+
+
+  - name: Debug
+    debug:
+     var: instance
+
+  - name: Delete an EC2 instance
+    ec2:
+      region: eu-central-1
+      wait: no
+      instance_ids: "{{ item.instance_id }}"
+      state: absent
+    delegate_to: localhost
+    run_once: true
+    with_items: "{{ instance.instances }}"
+
