@@ -11,6 +11,7 @@ Connect to instance with ec2-user, add the epel repo, install ansible and git.
     yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
     yum install -y ansible git
     echo 127.0.0.1 `hostname` master >> /etc/hosts
+    
 
 ### Clone this ansible repo from github
 

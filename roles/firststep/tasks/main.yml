@@ -51,8 +51,8 @@
     policy: targeted
     state: permissive 
 
-- name: Install boto
-  shell: "pip install boto boto3"
+- name: Install some packages via pip...
+  shell: "pip install boto boto3 awscli"
 
 - name: Update the system
   yum:
