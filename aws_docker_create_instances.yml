@@ -36,6 +36,13 @@
     delegate_to: localhost
     when: os == "amazon"
 
+  - name: save ami id in var
+    set_fact:
+      image_id: "{{ latest_ami.image_id }}"
+    delegate_to: localhost
+    when: os == "amazon"
+
+
   - name: Create an EC2 instance
     ec2:
       key_name: "{{ var_aws_key }}"
