@@ -5,6 +5,4 @@
   become: yes
 
   roles:
-    - firststep
-    - reboot
     - docker

@@ -4,7 +4,7 @@
 - name: Wait for instances to become reachable
   wait_for_connection:
     delay: 10
-    timeout: 120
+    timeout: 180
         
 - name: Add user kortstie
   user:
@@ -33,6 +33,15 @@
     url: https://raw.githubusercontent.com/kortstie/aws/master/.screenrc
     dest: /home/kortstie/.screenrc
     mode: 0700
+    owner: kortstie
+    group: users
+
+- name: Get my favorite Bash Profile File
+  get_url:
+    url: https://raw.githubusercontent.com/kortstie/aws/master/.bash_profile
+    dest: /home/kortstie/.bash_profile
+    mode: 0644
+    force: yes
     owner: kortstie
     group: users
 
