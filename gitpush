@@ -1,0 +1,5 @@
+#!/bin/bash
+
+git remote set-url origin git@github.com:kortstie/aws_ansible.git
+git push origin master
+
