@@ -86,6 +86,7 @@ This playbook brings up the swarm with two nodes.
 This playbook deploys a webserver into our swarm.
 The webserver should start on both nodes and listen on port 8081!
 
-    curl tdoc1:8081 tdoc2:8081
+### Put it all together!
 
+    ./aws_create_instances.yml && ./aws_docker_provisioning.yml && ./aws_docker_start_swarm.yml && ./aws_docker_start_web1.yml && watch curl tdoc1:8081
 
