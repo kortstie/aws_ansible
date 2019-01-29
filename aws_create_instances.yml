@@ -50,27 +50,45 @@
       image: "{{ image_id }}"
       region: "{{ var_aws_region }}"
       vpc_subnet_id: "{{ var_subnet_id }}"
-      wait: no
+      wait: yes
       group: default
       count: 1
       assign_public_ip: yes
       instance_tags:
        Name: "{{ inventory_hostname }}" 
       state: present
-    register: ec2
+    register: ec2_created
     delegate_to: localhost
+
+- hosts: "all,!master"
+  become: no
+  gather_facts: no
+  vars:
+    var_aws_region: eu-central-1
+
+  tasks:
+
+    - name: Get all running EC2 instances from aws...
+      ec2_instance_facts:
+        region: "{{ var_aws_region }}"
+        filters:
+          "instance-state-name": "running"
+      run_once: true
+      delegate_to: localhost
+      register: ec2_all
 
 - hosts: "all,!master"
   become: yes
   gather_facts: no
 
   tasks:
-  - name: Add new instance to /etc/hosts
+  - name: Add / update all IPs in /etc/hosts (hostnames come from Ansibel inventory!)
     lineinfile:
       path: /etc/hosts
       regexp: ".*{{ item.tags.Name }}$"
-      line: "{{ item.private_ip }} {{ item.private_dns_name }} {{ item.tags.Name }}"
-    with_items: "{{ ec2.instances }}"
+      line: "{{ item.private_ip_address }} {{ item.private_dns_name }} {{ item.tags.Name }}"
+    with_items: "{{ ec2_all.instances }}"
+    run_once: true
     delegate_to: localhost
 
 - hosts: "all,!master"
