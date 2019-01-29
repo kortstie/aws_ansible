@@ -10,10 +10,6 @@
 
   tasks:
  
-  - name: Debug
-    debug:
-     var: play_hosts
-
   - name: Get Instance IDs from aws
     ec2_instance_facts:
       region: "{{ var_aws_region }}"

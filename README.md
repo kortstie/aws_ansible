@@ -1,7 +1,7 @@
 ## Overview
 
-This project provides the steps needed to build a docker environment based on AWS EC2 RHEL7 or Amazon Linux 2 instances.
-The docker hosts are provisioned and managed by an Ansible host. In this demo the Ansible Host should be named "master".
+This project provides the steps needed to build a demo environment with some AWS EC2 RHEL7 or Amazon Linux 2 instances.
+The instances are provisioned and managed by an Ansible host. In this demo the Ansible Host should be named "master".
 The "master" host has to be created manually, the configuration of this host is described in the following steps:
 
 ## Prepare the Ansible Host
@@ -56,7 +56,7 @@ Load Key and secret before ec module start:
 
 ## Deploy some instances in aws EC2
 
-This Playbook creates (some) EC2 instances, saves the local IPs into ~/hosts and executes the "firststep" role on the new instances.
+This Playbook creates (some) EC2 instances, saves the local IPs into /etc/hosts and executes the "firststep" role on the new instances.
 If the play-hosts are not limited on the commandline, all hosts listed in the Ansible inventory (inventory/hosts) are created!
 
 Examples:
