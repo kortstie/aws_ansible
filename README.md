@@ -1,11 +1,12 @@
 ## Overview
 
 This project provides the steps needed to build a docker environment based on AWS EC2 RHEL7 or Amazon Linux 2 instances.
-The docker hosts are provisioned and managed by an Ansible host.
+The docker hosts are provisioned and managed by an Ansible host. In this demo the Ansible Host should be named "master".
+The "master" host has to be created manually, the configuration of this host is described in the following steps:
 
 ## Prepare the Ansible Host
 
-Connect to instance with ec2-user, add the epel repo, install ansible and git.
+Connect to instance "master" with ec2-user, add the epel repo, install ansible and git.
 
     sudo su -
     yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
@@ -22,15 +23,10 @@ Create kortstie user, add some packages, update the system
 
     ./aws_master_step1.yml
 
-Save Private Key under `/home/kortstie/.ssh/id_rsa` to access more instances from this host via ssh
-
-    chmod 600 /home/kortstie/.ssh/id_rsa
-    chown kortstie:users /home/kortstie/.ssh/id_rsa
+Save Private Key under `/home/kortstie/.ssh/id_rsa` to access more instances from this host via ssh, don't
+forget to set the right ownership and access rights on the file... `600`
 
 Reboot the Instance and reconnect with kortstie...
-
-    eval `ssh-agent`; ssh-add
-    screen -S korti
 
 ### Push Changes to GitHub
 
@@ -46,7 +42,7 @@ Create an user for Ansible (Programatic Access) with these rights:
 - AmazonEC2FullAccess
 - SecurityAudit 
 
-Save key and secret to a local file
+Save key and secret e.g. to a local file
 ```bash
 echo <<EOF > ~/aws.key 
 export AWS_ACCESS_KEY_ID=<key_id>
@@ -54,26 +50,26 @@ export AWS_SECRET_ACCESS_KEY=<secret>
 EOF
 ```
 
-
 Load Key and secret before ec module start: 
 
      . ~/aws.key
 
-## Deploy some Docker Hosts
+## Deploy some instances in aws EC2
 
-### Create some EC2 instances with ansible
+This Playbook creates (some) EC2 instances, saves the local IPs into ~/hosts and executes the "firststep" role on the new instances.
+If the play-hosts are not limited on the commandline, all hosts listed in the Ansible inventory (inventory/hosts) are created!
 
-This Playbook creates (some) EC2 instances, saves Local IPs into ~/hosts...
-Edit the Playbook and select the most recent version of RHEL or Amazon Linux 2 image. (ami-xxxxx)
+Examples:
 
-    ./aws_docker_create_instances.yml
+    ./aws_create_instances.yml
+    ./aws_create_instances.yml -l tdoc1
+    ./aws_create_instances.yml --extra-vars="os=rhel7"
 
-After successful run, the private DNS and IPs should be written in ~/hosts.
-Instert the IPs in /etc/hosts and assign the alias names tdoc1 and tdoc2 to them.
+
     
-### Provisioning for the instances with docker
+### Provisioning for a Docker host
 
-Creates User, Updates the system, installs Docker packages, reboot
+Installs Docker packages, docker-python modules, assigns dockerroot group ...
 
      ./aws_docker_provisioning.yml -l tdoc*
 
@@ -93,7 +89,3 @@ The webserver should start on both nodes and listen on port 8081!
     curl tdoc1:8081 tdoc2:8081
 
 
-Todo:
-- [ ] scale a stack
-- [ ] take down a stack
- 

@@ -1,8 +1,12 @@
 #!/usr/bin/ansible-playbook
 ---
-- hosts: all
+- hosts: all,!master
   connection: local
   gather_facts: false
+  
+  vars:
+    var_aws_region: eu-central-1
+
 
   tasks:
  
@@ -10,24 +14,18 @@
     debug:
      var: play_hosts
 
-  - name: Get Instance ID
+  - name: Get Instance IDs from aws
     ec2_instance_facts:
-      region: eu-central-1
+      region: "{{ var_aws_region }}"
       filters:
-        "tag:Name": "tdoc*"
+        "tag:Name": "{{ inventory_hostname }}"
         "instance-state-name": "running"
     delegate_to: localhost
-    run_once: true
     register: instance
 
-
-  - name: Debug
-    debug:
-     var: instance
-
-  - name: Delete an EC2 instance
+  - name: Delete the selected EC2 instances
     ec2:
-      region: eu-central-1
+      region: "{{ var_aws_region }}"
       wait: no
       instance_ids: "{{ item.instance_id }}"
       state: absent
