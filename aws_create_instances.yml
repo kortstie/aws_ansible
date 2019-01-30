@@ -85,7 +85,7 @@
   - name: Add / update all IPs in /etc/hosts (hostnames come from Ansibel inventory!)
     lineinfile:
       path: /etc/hosts
-      regexp: ".*{{ item.tags.Name }}$"
+      regexp: ".* {{ item.tags.Name }}$"
       line: "{{ item.private_ip_address }} {{ item.private_dns_name }} {{ item.tags.Name }}"
     with_items: "{{ ec2_all.instances }}"
     run_once: true

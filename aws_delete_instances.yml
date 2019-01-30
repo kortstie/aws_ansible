@@ -19,6 +19,10 @@
     delegate_to: localhost
     register: instance
 
+  - name: debug
+    debug:
+      var: instance
+
   - name: Delete the selected EC2 instances
     ec2:
       region: "{{ var_aws_region }}"
@@ -26,6 +30,5 @@
       instance_ids: "{{ item.instance_id }}"
       state: absent
     delegate_to: localhost
-    run_once: true
     with_items: "{{ instance.instances }}"
 
