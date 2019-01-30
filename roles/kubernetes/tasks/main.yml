@@ -1,18 +1,17 @@
 
 ---
-- name: Enable extras repo
+- name: Register kubernetes repo (Google)
+  copy:
+    src: kubernetes.repo
+    dest: /etc/yum.repos.d/kubernetes.repo
+
+- name: Register RHEL Extras Channel
   shell: "yum-config-manager --enable rhui-REGION-rhel-server-extras"
 
-- name: Installiert docker
+- name: Install docker
   package:
-    name: docker,docker-compose
+    name: docker
     state: present
-
-#- name: Enable IPv4 Forwarding
-#  lineinfile:
-#   path: /usr/lib/sysctl.d/99-docker.conf
-#   line: net.ipv4.ip_forward=1
-#   state: present
 
 - name: Add dockerroot group if not present
   group:
@@ -38,4 +37,17 @@
 
 - name: Install Python docker modules
   shell: "pip install docker"
+
+- name: Install Kubernetes
+  package:
+    name: kubelet,kubeadm,kubectl
+    state: present
+
+- name: Start/enable kubernetes
+  service:
+    name: kubelet
+    enabled: yes
+    state: restarted
+
+
 
