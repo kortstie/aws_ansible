@@ -5,6 +5,15 @@
   wait_for_connection:
     delay: 10
     timeout: 180
+
+- name: Set Hostname
+  shell: hostnamectl set-hostname {{ inventory_hostname }}
+
+- name: Persist Hostname in /etc/cloud/cloud.cfg
+  lineinfile:
+    path: /etc/cloud/cloud.cfg
+    line: "preserve_hostname: yes"
+    state: present
         
 - name: Add user kortstie
   user:
